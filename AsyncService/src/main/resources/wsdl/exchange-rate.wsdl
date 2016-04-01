@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy"
+	xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://async.ws.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://async.ws.com/" name="ExchangeRateService">
+
+	<types>
+		<xsd:schema xmlns:tns="http://async.ws.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://async.ws.com/">
+			<xsd:element name="getExchangeRate" type="tns:getExchangeRate"></xsd:element>
+			<xsd:element name="getExchangeRateResponse" type="tns:getExchangeRateResponse"></xsd:element>
+			<xsd:complexType name="getExchangeRate">
+				<xsd:sequence>
+					<xsd:element name="arg0" type="xsd:string" minOccurs="0"></xsd:element>
+					<xsd:element name="arg1" type="xsd:string" minOccurs="0"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="getExchangeRateResponse">
+				<xsd:sequence>
+					<xsd:element name="return" type="xsd:double"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</types>
+	<message name="getExchangeRate">
+		<part name="parameters" element="tns:getExchangeRate"></part>
+	</message>
+	<message name="getExchangeRateResponse">
+		<part name="parameters" element="tns:getExchangeRateResponse"></part>
+	</message>
+	<portType name="ExchangeRate">
+		<operation name="getExchangeRate">
+			<input wsam:Action="http://async.ws.com/ExchangeRate/getExchangeRateRequest" message="tns:getExchangeRate"></input>
+			<output wsam:Action="http://async.ws.com/ExchangeRate/getExchangeRateResponse" message="tns:getExchangeRateResponse"></output>
+		</operation>
+	</portType>
+
+	<binding name="ExchangeRatePortBinding" type="tns:ExchangeRate">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding>
+		<operation name="getExchangeRate">
+			<soap:operation soapAction=""></soap:operation>
+			<input>
+				<soap:body use="literal"></soap:body>
+			</input>
+			<output>
+				<soap:body use="literal"></soap:body>
+			</output>
+		</operation>
+	</binding>
+
+	<service name="ExchangeRateService">
+		<port name="ExchangeRatePort" binding="tns:ExchangeRatePortBinding">
+			<soap:address location="http://localhost:8282/exchangeRate"></soap:address>
+		</port>
+	</service>
+
+</definitions>

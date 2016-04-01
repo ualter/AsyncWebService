@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<bindings 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    wsdlLocation="http://localhost:8282/exchangeRateService?wsdl" 
+    xmlns="http://java.sun.com/xml/ns/jaxws">
+
+	<!-- applies to wsdl:definitions node, that would mean the entire wsdl -->
+	<enableAsyncMapping>false</enableAsyncMapping>
+
+	<!-- wsdl:portType operation customization -->
+	<bindings node="wsdl:definitions/wsdl:portType [@name='ExchangeRate']/wsdl:operation[@name='getExchangeRate']">
+		<enableAsyncMapping>true</enableAsyncMapping>
+	</bindings>
+</bindings>

@@ -23,7 +23,7 @@ public class ExchangeRateClient {
 			System.exit(-1);
 		}
 		ExchangeRateClient client = new ExchangeRateClient(args[0]);
-		Thread.sleep(5000L);
+		Thread.sleep(50000L);
 	}
 
 	public ExchangeRateClient(String urlStr) throws MalformedURLException {
@@ -35,22 +35,35 @@ public class ExchangeRateClient {
 		excRate = exchangeRateService.getExchangeRatePort();
 
 		// synchronous:
-		System.out.println("Airstrip One / Ganymede exchange rate, retrieved synchronously, is: " + excRate.getExchangeRate("AS1", "GMD"));
+		System.out.println("░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░");
+		System.out.println("░▒▓ »»» Synchronous Call              ▓▒░");
+		System.out.println("░▒▓ Retrieved synchronously, is: " + excRate.getExchangeRate("AS1", "GMD") + " ▓▒░");
+		System.out.println("░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░");
+		System.out.println("\n\n");
 
 		// asynchronous with polling:
 		try {
 			Response<GetExchangeRateResponse> response = excRate.getExchangeRateAsync("AS1", "GMD");
-			Thread.sleep(2000L);
+			    System.out.println("░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░");
+			    System.out.println("░▒▓ »»» Polling Call                                                                         ▓▒░");
+			int count = 0;    
+			while ( !response.isDone() ) {
+				Thread.sleep(2000L);
+				System.out.println("░▒▓ --> Waiting 2 secs then ask if the response is ready. I could be doing something else. " + (++count) + " ▓▒░");
+			}
 			GetExchangeRateResponse output = response.get();
-			System.out.println("--> retrieved via polling: " + output.getReturn());
+			System.out.println("░▒▓ --> retrieved via polling: " + output.getReturn() + "                                                          ▓▒░");
+			System.out.println("░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░");
+			System.out.println("\n\n");
 		} catch (Exception exc) {
 			System.out.println(exc.getClass().getName() + " polling for response: " + exc.getMessage());
 		}
 
 		// asynchronous with callback:
+		System.out.println("░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░");
+		System.out.println("░▒▓ »»» CallBack Call                                                ▓▒░");
 		excRate.getExchangeRateAsync("AS1", "GMD", new AsyncHandler<GetExchangeRateResponse>() {
 			public void handleResponse(Response<GetExchangeRateResponse> response) {
-				System.out.println("In AsyncHandler");
 				try {
 					theClient.setCurrencyExchangeRate(response.get().getReturn());
 				} catch (Exception exc) {
@@ -58,10 +71,25 @@ public class ExchangeRateClient {
 				}
 			}
 		});
+		try {
+			System.out.println("░▒▓ While no answer...  I will do something else in meantime...   1  ▓▒░");
+			Thread.sleep(3000);
+			System.out.println("░▒▓ While no answer...  I will do something else in meantime...   2  ▓▒░");
+			Thread.sleep(3000);
+			System.out.println("░▒▓ While no answer...  I will do something else in meantime...   3  ▓▒░");
+			Thread.sleep(3000);
+			System.out.println("░▒▓ While no answer...  I will do something else in meantime...   4  ▓▒░");
+			Thread.sleep(3000);
+			System.out.println("░▒▓ While no answer...  I will do something else in meantime...   5  ▓▒░");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
 	}
 
 	protected void setCurrencyExchangeRate(double newRate) {
 		rate = newRate;
-		System.out.println("--> via callback, updated exchange rate to " + rate);
+		System.out.println("░▒▓ --> via callback, updated exchange rate to " + rate + "                  ▓▒░");
+		System.out.println("░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░");
+		System.out.println("\n\n");
 	}
 }

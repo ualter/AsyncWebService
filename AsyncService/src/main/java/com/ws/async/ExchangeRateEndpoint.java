@@ -15,11 +15,26 @@ public class ExchangeRateEndpoint implements ExchangeRate {
 		}
 		ExchangeRateEndpoint wsInstance = new ExchangeRateEndpoint();
 		Endpoint.publish(args[0], wsInstance);
-		System.out.println("Published endpoint at URL " + args[0]);
+		System.out.println("░▒▓▓▓██▓▒▒░░");
+		System.out.println("░▒▓▓▓██▓ »»»» Published endpoint at URL " + args[0]);
+		System.out.println("░▒▓▓▓██▓▒▒░░\n\n");
 	}
 
 	@WebMethod
 	public double getExchangeRate(String fromCurrency, String toCurrency) {
+		
+		System.out.println("░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░");
+		System.out.println("░▒▓ »»» Start transaction            ▓▒░");
+		System.out.println("░▒▓ Waiting 15 seconds before answer ▓▒░");
+		try {
+			Thread.sleep(15000);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+		System.out.println("░▒▓ Answering now...                 ▓▒░");
+		System.out.println("░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░");
+		System.out.println("\n");
+		
 		if (fromCurrency.equals("AS1") && toCurrency.equals("GMD")) {
 			return 2.78;
 		} else {

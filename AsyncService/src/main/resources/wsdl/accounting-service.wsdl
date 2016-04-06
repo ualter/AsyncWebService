@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions 
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" 
+    xmlns:wsp="http://www.w3.org/ns/ws-policy" 
+    xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy"
+	xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://async.ws.com/" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" 
+	targetNamespace="http://async.ws.com/" name="AccountingService">
+
+	<types>
+		<xsd:schema xmlns:tns="http://async.ws.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://async.ws.com/">
+			<xsd:element name="getPeriodTotalExpenses" type="tns:getPeriodTotalExpenses"></xsd:element>
+			<xsd:element name="getPeriodTotalExpensesResponse" type="tns:getPeriodTotalExpensesResponse"></xsd:element>
+			<xsd:element name="faultAccountingService" type="tns:faultAccountingService"></xsd:element>
+			<xsd:complexType name="getPeriodTotalExpenses">
+				<xsd:sequence>
+					<xsd:element name="startDate" type="xsd:date" minOccurs="0"></xsd:element>
+					<xsd:element name="endDate" type="xsd:date" minOccurs="0"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="getPeriodTotalExpensesResponse">
+				<xsd:sequence>
+					<xsd:element name="totalExpensesPeriod" type="xsd:double"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="faultAccountingService">
+			    <xsd:sequence>
+                    <xsd:element name="code" type="xsd:int" minOccurs="0"></xsd:element>
+                    <xsd:element name="description" type="xsd:string" minOccurs="0"></xsd:element>
+                </xsd:sequence>  
+			</xsd:complexType>
+		</xsd:schema>
+	</types>
+	
+	<message name="getPeriodTotalExpenses">
+		<part name="parameters" element="tns:getPeriodTotalExpenses"></part>
+	</message>
+	<message name="getPeriodTotalExpensesResponse">
+		<part name="parameters" element="tns:getPeriodTotalExpensesResponse"></part>
+	</message>
+	<message name="faultAccountingService">
+	   <part name="parameters" element="tns:faultAccountingService"></part>
+	</message>
+	
+	<portType name="AccountingService">
+		<operation name="getPeriodTotalExpenses">
+			<input wsam:Action="http://async.ws.com/ExchangeRate/getPeriodTotalExpensesRequest" message="tns:getPeriodTotalExpenses"></input>
+			<output wsam:Action="http://async.ws.com/ExchangeRate/getPeriodTotalExpensesResponse" message="tns:getPeriodTotalExpensesResponse"></output>
+			<fault name="fault" message="tns:faultAccountingService"></fault>
+		</operation>
+	</portType>
+
+	<binding name="AccountingServicePortBinding" type="tns:AccountingService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"></soap:binding>
+		<operation name="getPeriodTotalExpenses">
+			<soap:operation soapAction=""></soap:operation>
+			<input>
+				<soap:body use="literal"></soap:body>
+			</input>
+			<output>
+				<soap:body use="literal"></soap:body>
+			</output>
+			<fault name="fault">
+			    <soap:fault name="fault" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+
+	<service name="AccountingService">
+		<port name="AccountingServicePort" binding="tns:AccountingServicePortBinding">
+			<soap:address location="http://localhost:8282/accountingService"></soap:address>
+		</port>
+	</service>
+
+</definitions>

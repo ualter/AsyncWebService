@@ -23,13 +23,13 @@
 	</dependencies>
 
 	<build>
-		<finalName>ExchangeRateWebService</finalName>
+		<finalName>AccountingServiceWebService</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -41,6 +41,7 @@
 							<goal>wsimport</goal>
 						</goals>
 						<configuration>
+						    <target>2.2</target>
 							<wsdlDirectory>${basedir}/src/main/resources/wsdl</wsdlDirectory>
 							<keep>true</keep>
 							<packageName>com.ws.async.generated</packageName>
@@ -51,4 +52,16 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<!--
+	 In case of error check:
+	 
+	 jaxp.properties file must exist in /path/to/jdk1.8.x/jre/lib
+	 
+	   with the value
+	   
+	 javax.xml.accessExternalSchema = all
+	   
+	 source: http://stackoverflow.com/questions/23011547/webservice-client-generation-error-with-jdk8  
+	 -->
 </project>

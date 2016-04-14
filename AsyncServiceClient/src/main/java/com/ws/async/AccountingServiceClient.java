@@ -3,6 +3,7 @@ package com.ws.async;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.concurrent.Future;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
@@ -89,7 +90,7 @@ public class AccountingServiceClient {
 		System.out.println("░▒▓ »»» CallBack Call                                                  ▓▒░");
 		/*
 		// Using the Old style (no Lambda)
-		accountingService.getPeriodTotalExpensesAsync(startDate, endDate, new AsyncHandler<GetPeriodTotalExpensesResponse>() {
+		Future<?> future = accountingService.getPeriodTotalExpensesAsync(startDate, endDate, new AsyncHandler<GetPeriodTotalExpensesResponse>() {
 			public void handleResponse(Response<GetPeriodTotalExpensesResponse> response) {
 				try {
 					theClient.setTotalExpensesPeriod(response.get().getTotalExpensesPeriod());
@@ -100,7 +101,7 @@ public class AccountingServiceClient {
 		});
 		*/
 		// Using Lambda
-		accountingService.getPeriodTotalExpensesAsync(startDate, endDate, (response) -> {
+		Future<?> future = accountingService.getPeriodTotalExpensesAsync(startDate, endDate, (response) -> {
 			try {
 				theClient.setTotalExpensesPeriod(response.get().getTotalExpensesPeriod());
 			} catch (Exception exc) {
@@ -116,6 +117,10 @@ public class AccountingServiceClient {
 			Thread.sleep(3000);
 			System.out.println("░▒▓ While no answer...  I will do something else in meantime...    4   ▓▒░");
 			Thread.sleep(3000);
+			// Although I am waiting the callback, I can still ask if the response is ready, 
+			//     if ( future.isDone() ) ...
+			// Or even cancel transaction
+			//     future.cancel(true);
 			System.out.println("░▒▓ While no answer...  I will do something else in meantime...    5   ▓▒░");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e.getMessage(), e);

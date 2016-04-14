@@ -87,6 +87,8 @@ public class AccountingServiceClient {
 		// asynchronous with callback:
 		System.out.println("░▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒░");
 		System.out.println("░▒▓ »»» CallBack Call                                                  ▓▒░");
+		/*
+		// Using the Old style (no Lambda)
 		accountingService.getPeriodTotalExpensesAsync(startDate, endDate, new AsyncHandler<GetPeriodTotalExpensesResponse>() {
 			public void handleResponse(Response<GetPeriodTotalExpensesResponse> response) {
 				try {
@@ -94,6 +96,15 @@ public class AccountingServiceClient {
 				} catch (Exception exc) {
 					System.out.println(exc.getClass().getName() + " using callback for response:" + exc.getMessage());
 				}
+			}
+		});
+		*/
+		// Using Lambda
+		accountingService.getPeriodTotalExpensesAsync(startDate, endDate, (response) -> {
+			try {
+				theClient.setTotalExpensesPeriod(response.get().getTotalExpensesPeriod());
+			} catch (Exception exc) {
+				System.out.println(exc.getClass().getName() + " using callback for response:" + exc.getMessage());
 			}
 		});
 		try {

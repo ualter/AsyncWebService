@@ -1,0 +1,2 @@
+#Start
+java -cp target\AccountingServiceWebService.jar com.ws.async.AccountingServiceEndpoint http://localhost:8282/accountService
